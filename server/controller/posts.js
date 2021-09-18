@@ -5,9 +5,6 @@ import PostMessage from "../models/postMessage.js";
 export const getPosts = async (req, res) => {
 	try {
 		const postMessage = await PostMessage.find();
-
-		// console.log(postMessage);
-
 		res.status(200).json(postMessage);
 	} catch (error) {
 		res.status(404).json(
@@ -45,7 +42,6 @@ export const updatePost = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(_id))
 		return res.status(404).send("No post with that ID");
 
-	// const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {new: true});
 	const updatedPost = await PostMessage.findByIdAndUpdate(
 		_id,
 		{ ...post, _id },
@@ -85,14 +81,6 @@ export const likePost = async (req, res) => {
 		//dislike a post
 		post.likes = post.likes.filter((id) => id != String(req.userId));
 	}
-
-	// const updatedPost = await PostMessage.findByIdAndUpdate(
-	// 	_id,
-	// 	{ likeCount: post.likeCount + 1 },
-	// 	{
-	// 		new: true,
-	// 	}
-	// );
 
 	const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {
 		new: true,
